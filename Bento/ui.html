@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bento Layout</title>
+    <style>
+      :root {
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto,
+          sans-serif;
+      }
+      body {
+        margin: 0;
+        color: var(--figma-color-text, #111);
+        background: var(--figma-color-bg, #fff);
+      }
+      .wrap {
+        padding: 12px 12px 16px;
+        display: grid;
+        gap: 12px;
+      }
+      fieldset {
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 12px;
+        padding: 12px;
+      }
+      legend {
+        padding: 0 6px;
+        opacity: 0.7;
+        font-size: 12px;
+      }
+      label {
+        display: grid;
+        gap: 4px;
+        font-size: 12px;
+      }
+      input,
+      select {
+        height: 32px;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 0 10px;
+      }
+      .grid {
+        display: grid;
+        gap: 8px;
+        grid-template-columns: 1fr 1fr;
+      }
+      .row {
+        display: grid;
+        gap: 8px;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+      }
+      button {
+        height: 40px;
+        border: none;
+        border-radius: 10px;
+        background: #3b82f6;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button:hover {
+        filter: brightness(0.95);
+      }
+      .muted {
+        font-size: 12px;
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <fieldset>
+        <legend>Preset</legend>
+        <label>
+          <select id="preset">
+            <option value="grid">Simple Grid</option>
+            <option value="golden">Golden Bento (2×2 hero)</option>
+            <option value="heroRight">Hero Right (2×3)</option>
+            <option value="heroLeft">Hero Left (2×3)</option>
+            <option value="masonry6">Masonry 6</option>
+          </select>
+          <span class="muted"
+            >Choose a composition. "Simple Grid" uses Rows/Cols below.</span
+          >
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Canvas</legend>
+        <div class="grid">
+          <label
+            >Width
+            <input id="width" type="number" value="1200" min="200" step="10"
+          /></label>
+          <label
+            >Height
+            <input id="height" type="number" value="800" min="200" step="10"
+          /></label>
+        </div>
+        <div class="grid">
+          <label
+            >Rows <input id="rows" type="number" value="3" min="1"
+          /></label>
+          <label
+            >Cols <input id="cols" type="number" value="4" min="1"
+          /></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Style</legend>
+        <div class="grid">
+          <label
+            >Padding
+            <input id="padding" type="number" value="24" min="0" step="1"
+          /></label>
+          <label
+            >Gap <input id="gap" type="number" value="16" min="0" step="1"
+          /></label>
+        </div>
+        <div class="grid">
+          <label
+            >Radius
+            <input id="radius" type="number" value="20" min="0" step="1"
+          /></label>
+          <label>
+            Shadow
+            <select id="shadow">
+              <option value="true">Soft</option>
+              <option value="false" selected>None</option>
+            </select>
+          </label>
+        </div>
+        <div class="grid">
+          <label>
+            Palette
+            <select id="palette">
+              <option value="neutral">Neutral</option>
+              <option value="mono">Mono</option>
+              <option value="sunset" selected>Sunset</option>
+              <option value="mint">Mint</option>
+              <option value="ocean">Ocean</option>
+              <option value="grape">Grape</option>
+            </select>
+          </label>
+          <label>
+            Labels
+            <select id="labels">
+              <option value="none" selected>None</option>
+              <option value="numbers">1,2,3…</option>
+              <option value="letters">A,B,C…</option>
+            </select>
+          </label>
+        </div>
+      </fieldset>
+
+      <button id="generate">Create Layout</button>
+      <div class="muted">
+        Tip: Select the parent frame later and use Auto Layout inside cards as
+        you wish.
+      </div>
+    </div>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+      const read = () => ({
+        preset: /** @type {any} */ ($('preset').value),
+        width: parseInt($('width').value, 10),
+        height: parseInt($('height').value, 10),
+        rows: parseInt($('rows').value, 10),
+        cols: parseInt($('cols').value, 10),
+        gap: parseInt($('gap').value, 10),
+        padding: parseInt($('padding').value, 10),
+        radius: parseInt($('radius').value, 10),
+        addShadow: $('shadow').value === 'true',
+        palette: /** @type {any} */ ($('palette').value),
+        labelStyle: /** @type {any} */ ($('labels').value),
+      });
+
+      document.getElementById('generate').addEventListener('click', () => {
+        parent.postMessage(
+          { pluginMessage: { type: 'generate', payload: read() } },
+          '*'
+        );
+      });
+    </script>
+  </body>
+</html>

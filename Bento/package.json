@@ -1,0 +1,13 @@
+{
+  "name": "bento-layout-generator",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p .",
+    "watch": "tsc -w -p ."
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@figma/plugin-typings": "^1.105.0"
+  }
+}

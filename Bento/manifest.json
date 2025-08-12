@@ -1,0 +1,9 @@
+{
+  "name": "Bento Layout Generator",
+  "id": "bento-layout-generator",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "relaunchButtons": [{ "command": "relaunch", "name": "Bento Layout" }]
+}
