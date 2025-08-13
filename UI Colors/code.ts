@@ -1,7 +1,7 @@
 // Show the UI to the user
 figma.showUI(__html__, {
-  width: 300,
-  height: 160,
+  width: 500,
+  height: 700,
   title: 'Color Style Generator',
 });
 
@@ -66,6 +66,7 @@ figma.ui.onmessage = async (msg: { type: string; [key: string]: any }) => {
   // --- Palette Generation Handler ---
   if (msg.type === 'generate-palette') {
     const { name, hex } = msg;
+    const collection = figma.variables.createVariableCollection('UI Colors');
 
     const baseColorRgb = hexToRgb(hex);
     if (!baseColorRgb) {
@@ -120,6 +121,20 @@ figma.ui.onmessage = async (msg: { type: string; [key: string]: any }) => {
           color: { r: newRgb.r / 255, g: newRgb.g / 255, b: newRgb.b / 255 },
         },
       ];
+
+      const colorVariable = figma.variables.createVariable(
+        `${name}/${weight}`,
+        collection,
+        'COLOR'
+      );
+
+      const lightModeId = collection.modes[0].modeId;
+
+      colorVariable.setValueForMode(lightModeId, {
+        r: newRgb.r / 255,
+        g: newRgb.g / 255,
+        b: newRgb.b / 255,
+      });
     }
 
     figma.notify(`🎨 "${name}" styles created in the "UI Colors" group!`);

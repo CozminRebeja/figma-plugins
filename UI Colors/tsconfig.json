@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es2017",
-    "lib": ["es2017", "dom"],
-    "strict": true,
+    "target": "es6",
+    "lib": ["es2017", "dom"], // Ensure DOM is included
+    "types": ["@figma/plugin-typings"], // Add this line
     "moduleResolution": "node",
-    "skipLibCheck": true,
-    "types": ["@figma/plugin-typings"]
-  },
-  "include": ["code.ts"]
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
 }
