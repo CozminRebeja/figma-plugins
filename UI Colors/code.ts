@@ -127,7 +127,6 @@ figma.ui.onmessage = async (msg: { type: string; [key: string]: any }) => {
         collection,
         'COLOR'
       );
-
       const lightModeId = collection.modes[0].modeId;
 
       colorVariable.setValueForMode(lightModeId, {
